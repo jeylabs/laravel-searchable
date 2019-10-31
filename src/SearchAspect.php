@@ -4,10 +4,11 @@ namespace Spatie\Searchable;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Foundation\Auth\User;
 
 abstract class SearchAspect
 {
-    abstract public function getResults(string $term): Collection;
+    abstract public function getResults(string $term, User $user = null, $limit = 10): Collection;
 
     public function getType(): string
     {

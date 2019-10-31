@@ -87,7 +87,7 @@ class ModelSearchAspect extends SearchAspect
         return $model->getTable();
     }
 
-    public function getResults(string $term, User $user = null): Collection
+    public function getResults(string $term, User $user = null, $limit = 10): Collection
     {
         if (empty($this->attributes)) {
             throw InvalidModelSearchAspect::noSearchableAttributes($this->model);
@@ -97,7 +97,7 @@ class ModelSearchAspect extends SearchAspect
 
         $this->addSearchConditions($query, $term);
 
-        return $query->get();
+        return $query->limit($limit)->get();
     }
 
     protected function addSearchConditions(Builder $query, string $term)

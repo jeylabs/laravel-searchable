@@ -47,18 +47,18 @@ class Search
         return $this->aspects;
     }
 
-    public function search(string $query, ?User $user = null): SearchResultCollection
+    public function search(string $query, ?User $user = null, $limit = 10): SearchResultCollection
     {
-        return $this->perform($query, $user);
+        return $this->perform($query, $user, $limit);
     }
 
-    public function perform(string $query, ?User $user = null): SearchResultCollection
+    public function perform(string $query, ?User $user = null, $limit = 10): SearchResultCollection
     {
         $searchResults = new SearchResultCollection();
 
         collect($this->getSearchAspects())
-            ->each(function (SearchAspect $aspect) use ($query, $user, $searchResults) {
-                $searchResults->addResults($aspect->getType(), $aspect->getResults($query, $user));
+            ->each(function (SearchAspect $aspect) use ($query, $user, $searchResults, $limit) {
+                $searchResults->addResults($aspect->getType(), $aspect->getResults($query, $user, $limit));
             });
 
         return $searchResults;
